@@ -53,7 +53,7 @@ export const deleteExpiredQuestion = async () =>  {
   fortyEightHoursAgo.setHours(fortyEightHoursAgo.getHours() - 48) // 48 hours means questions will expired after 48 hours (2 days)
 
   try {
-    const deletedQuestions = await QuestionModel.deleteMany({
+    const deletedQuestions = await Question.deleteMany({
       time: { $lt: fortyEightHoursAgo.toISOString() }
     })
 
@@ -73,12 +73,9 @@ export const deleteQuestionsPeriodically = () => {
   // Schedule the deleteQuestion function to run every minute (60000 milliseconds)
   setInterval(async () => {
     try {
-      await deleteQuestion();
+      await deleteExpiredQuestion();
     } catch (error) {
       console.error("Error:", error);
     }
   }, 60000); // 60000 milliseconds = 1 minute
 }
-
-// Call the function to start the periodic deletion
-deleteQuestionsPeriodically();
