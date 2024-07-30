@@ -8,12 +8,15 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
-const MYNAME = process.env.MYNAME
-const PASSWORD = process.env.PASSWORD
-const PORT = process.env.PORT
+let MYNAME = process.env.MYNAME
+let PASSWORD = process.env.PASSWORD
+let PORT = process.env.PORT
+
+console.log(MYNAME, PASSWORD, PORT)
 
 const app = express()
-const dbUrl = `mongodb+srv://${MYNAME}:${PASSWORD}@cluster0.ro3v8ye.mongodb.net/?retryWrites=true&w=majority`
+const dbUrl = `mongodb://${MYNAME}:${PASSWORD}@ac-oqojv27-shard-00-00.n4rfvez.mongodb.net:27017,ac-oqojv27-shard-00-01.n4rfvez.mongodb.net:27017,ac-oqojv27-shard-00-02.n4rfvez.mongodb.net:27017/?ssl=true&replicaSet=atlas-uyqp6a-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0`
+
 const connectionParam = {
     useNewUrlParser: true, 
     useUnifiedTopology: true,
@@ -34,7 +37,7 @@ app.use(userRouter)
 app.use(questionRouter)
 
 // delete question every minute
-deleteQuestionsPeriodically();
+// deleteQuestionsPeriodically();
   
 app.listen(PORT, () => {
     console.log("Server up and running")
